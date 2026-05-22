@@ -2,6 +2,10 @@
 .DS_Store
 .venv/
 report-output/
+hnpoc-report/
+report-test2/
+hnpoc/
+test2/
 __pycache__/
 *.pyc
 *.pyo
