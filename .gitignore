@@ -1,0 +1,9 @@
+.omx/
+.DS_Store
+.venv/
+report-output/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.~*.docx
