@@ -10,13 +10,9 @@
 4. 可选填写网络带宽。
 5. 选择 CPU、内存、磁盘、网络指标后点击“生成报告”。
 
-如果浏览器限制本地文件能力，可以用任意静态服务器打开：
+项目已内置 ECharts，clone 或拷贝整个目录后可离线使用，不需要访问 CDN。
 
-```bash
-python3 -m http.server 8765
-```
-
-然后访问 `http://127.0.0.1:8765/index.html`。这个命令只是临时托管静态文件，不参与解析和报表生成。
+推荐直接用浏览器打开 `index.html`。如果某些企业浏览器策略限制本地文件访问，可以把整个目录放到已有的静态文件服务中访问；该服务只负责提供 HTML、JS、CSS 文件，不参与解析和报表生成。
 
 ## 功能
 
@@ -29,7 +25,7 @@ python3 -m http.server 8765
 - 汇总表会随图表区域缩放按时间范围动态重新计算。
 - 图表支持区域缩放，缩放后会联动刷新整体汇总。
 - CPU 使用率使用堆叠面积图展示 User、Sys、Wait，并保留 Busy 趋势线。
-- 磁盘和网络默认展示 Top 5，可调整 Top N。
+- 磁盘和网络默认展示 Top 5。
 - 图表右键支持复制图片；工具栏支持保存图片。
 
 ## 目录
@@ -38,6 +34,8 @@ python3 -m http.server 8765
 index.html          Web 入口
 assets/app.js       nmon 解析、统计、图表逻辑
 assets/styles.css   页面样式
+assets/echarts.min.js
+                    本地 ECharts 运行依赖
 docs/               需求与设计说明
 sample/             小型 nmon 示例文件
 ```
@@ -48,6 +46,10 @@ sample/             小型 nmon 示例文件
 
 [docs/requirements-and-design.md](docs/requirements-and-design.md)
 
-## 说明
+## 离线依赖
 
-图表默认使用 ECharts CDN 加载。若需要完全离线使用，把 `echarts.min.js` 放到 `assets/echarts.min.js`，页面会自动优先使用本地兜底文件。
+图表依赖已随项目放在 `assets/echarts.min.js`。入口页只加载本地文件，因此其他用户 clone 仓库后直接打开 `index.html` 即可离线使用。
+
+第三方依赖：
+
+- Apache ECharts 5，Apache-2.0 License。
