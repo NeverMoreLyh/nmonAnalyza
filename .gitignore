@@ -1,6 +1,7 @@
 .omx/
 .DS_Store
 .venv/
+.pytest_cache/
 report-output/
 hnpoc-report/
 report-test2/

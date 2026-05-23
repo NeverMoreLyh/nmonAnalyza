@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nmon Analyzer</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+  <script>
+    if (!window.echarts) {
+      document.write('<script src="assets/echarts.min.js"><\\/script>');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>nmon Analyzer</h1>
+    <div>纯 Web 本地解析，多服务器资源汇总与趋势图</div>
+  </header>
+
+  <main>
+    <section class="panel controls">
+      <div class="field wide">
+        <label for="nmon-files">nmon 文件</label>
+        <input id="nmon-files" type="file" accept=".nmon,text/plain" multiple>
+      </div>
+      <div class="field">
+        <label for="network-bandwidth">网络带宽 Mbps</label>
+        <input id="network-bandwidth" type="number" min="0" placeholder="可选">
+      </div>
+      <div class="field themes">
+        <label>指标</label>
+        <div>
+          <label><input type="checkbox" name="metric" value="cpu" checked> CPU</label>
+          <label><input type="checkbox" name="metric" value="memory" checked> 内存</label>
+          <label><input type="checkbox" name="metric" value="disk" checked> 磁盘</label>
+          <label><input type="checkbox" name="metric" value="network" checked> 网络</label>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="analyze-button" type="button">生成报告</button>
+      </div>
+      <div id="status" class="status muted">选择一个或多个 .nmon 文件后生成报告。</div>
+    </section>
+
+    <section id="file-preview-panel" class="panel" hidden>
+      <h2>文件时间与读取范围</h2>
+      <div class="muted" id="file-preview-summary"></div>
+      <div class="table-scroll">
+        <table class="file-preview-table">
+          <thead>
+            <tr>
+              <th>文件名</th>
+              <th>服务器</th>
+              <th>开始时间</th>
+              <th>结束时间</th>
+              <th>读取范围</th>
+              <th>Section 数</th>
+              <th>状态</th>
+            </tr>
+          </thead>
+          <tbody id="file-preview-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="overview-panel" class="panel" hidden>
+      <h2>整体汇总</h2>
+      <div class="summary-range">
+        <label>筛选模式
+          <select id="summary-filter-mode">
+            <option value="time">按时间范围</option>
+            <option value="line">按读取范围</option>
+          </select>
+        </label>
+        <div id="summary-time-controls" class="summary-filter-controls">
+          <label>汇总开始 <input id="summary-start" type="datetime-local" step="1"></label>
+          <label>汇总结束 <input id="summary-end" type="datetime-local" step="1"></label>
+        </div>
+        <div id="summary-line-controls" class="summary-filter-controls" hidden>
+          <label>起始行号 <input id="summary-line-start" type="number" min="1"></label>
+          <label>结束行号 <input id="summary-line-end" type="number" min="1"></label>
+        </div>
+        <button id="summary-apply-button" type="button">按范围计算</button>
+        <span id="summary-range-label" class="muted"></span>
+      </div>
+      <div class="table-scroll">
+        <table class="overview-table">
+          <thead>
+            <tr>
+              <th>文件名</th>
+              <th>服务器</th>
+              <th>IP地址</th>
+              <th>CPU使用率</th>
+              <th>内存使用率</th>
+              <th>SWAP使用率</th>
+              <th>磁盘读速率<br>(KB/s)</th>
+              <th>磁盘写速率<br>(KB/s)</th>
+              <th>网络读速率<br>(KB/s)</th>
+              <th>网络写速率<br>(KB/s)</th>
+              <th>系统类型</th>
+              <th>读取范围</th>
+            </tr>
+          </thead>
+          <tbody id="overview-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="server-selector-panel" class="panel" hidden>
+      <h2>服务器明细</h2>
+      <label for="server-select">选择服务器</label>
+      <select id="server-select"></select>
+    </section>
+
+    <div id="server-panels"></div>
+  </main>
+
+  <div id="copy-menu" class="copy-menu">
+    <button id="copy-image-button" type="button">复制图片</button>
+  </div>
+  <div id="toast" class="toast"></div>
+
+  <template id="missing-chart-template">
+    <div class="empty">数据缺失</div>
+  </template>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
