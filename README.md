@@ -4,6 +4,16 @@
 
 ## 使用方式
 
+### 在线版本
+
+GitHub Pages 地址：
+
+<https://nevermorelyh.github.io/nmonAnalyza/>
+
+在线版本同样在浏览器本地解析 nmon 文件，不上传文件内容。
+
+### 本地离线使用
+
 1. 双击打开 `index.html`。
 2. 选择一个或多个 `.nmon` 文件。
 3. 页面会自动识别文件时间范围和读取行号范围。
@@ -53,3 +63,9 @@ sample/             小型 nmon 示例文件
 第三方依赖：
 
 - Apache ECharts 5，Apache-2.0 License。
+
+## GitHub Pages
+
+仓库已包含 `.github/workflows/pages.yml`。推送 `webonly` 分支后，GitHub Actions 会自动发布当前静态站点到 GitHub Pages。
+
+首次使用时，需要在仓库 Settings -> Pages 中将 Source 设置为 GitHub Actions。
